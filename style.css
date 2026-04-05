@@ -399,3 +399,66 @@ h1 {
         gap: 1rem;
     }
 }
+
+/* Socials section (hidden until toggled) */
+.hidden {
+    display: none !important;
+}
+.socials {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.socials.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(60px, 1fr));
+    gap: 1rem;
+    align-items: center;
+    justify-items: center;
+    margin-top: 1.2rem;
+}
+.social-card img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 12px;
+    padding: 8px;
+    background: rgba(255,255,255,0.02);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    box-shadow: 0 8px 20px rgba(2,9,23,0.45);
+}
+.social-card:hover img {
+    transform: translateY(-6px) scale(1.06);
+    box-shadow: 0 18px 40px rgba(64, 224, 255, 0.12);
+}
+
+/* Text labels for socials (used when logos are removed) */
+.social-card .social-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 64px;
+    padding: 12px 10px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.02);
+    color: #e8eef9;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.social-card:hover .social-label {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 18px 40px rgba(64, 224, 255, 0.12);
+}
+
+@media (max-width: 900px) {
+    .social-grid { grid-template-columns: repeat(3, minmax(60px, 1fr)); }
+}
+@media (max-width: 480px) {
+    .social-grid { grid-template-columns: repeat(2, minmax(60px, 1fr)); }
+}

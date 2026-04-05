@@ -47,3 +47,23 @@ function animateBackground() {
 }
 
 animateBackground();
+
+// Toggle Socials section visibility when nav link is clicked
+const socialLink = document.getElementById('social-link');
+const socialsSection = document.getElementById('socials');
+if (socialLink && socialsSection) {
+    socialLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isNowVisible = socialsSection.classList.toggle('hidden') ? false : true;
+        if (isNowVisible) {
+            socialsSection.classList.add('visible');
+            socialLink.setAttribute('aria-expanded', 'true');
+            socialsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            socialsSection.classList.remove('visible');
+            socialLink.setAttribute('aria-expanded', 'false');
+            // keep hidden after transition
+            setTimeout(() => socialsSection.classList.add('hidden'), 300);
+        }
+    });
+}
