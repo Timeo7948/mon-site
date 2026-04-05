@@ -3,18 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon premier site</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Site de Timeo Wetta (Timeo7912)</title>
     <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Bienvenue sur mon site</h1>
+    <!-- Animated background layer -->
+    <div class="background-glow"></div>
+
+    <header class="site-header">
+        <div class="logo">Timeo Wetta</div>
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">Infos</a>
+            <a href="#projects">Projets</a>
+            <a href="#contact">Contacte</a>
+        </nav>
     </header>
+
     <main>
-        <p>Bienvenue a toi sur mon site vous pourrez tout retrouver sur moi !!,le site et devellepoment. </p>
-        <button id="btn">test</button>
+        <section id="home" class="hero section">
+            <div class="hero-copy">
+                <span class="eyebrow">Infos</span>
+                <h1>Moi Timeo Wetta ou pseudonyme:Timeo7912.</h1>
+                <p>Un site pour on apprendre plus sur moi.</p>
+                <a href="#projects" class="btn btn-glow">Découvrir les projets</a>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <span>code</span>
+                    <pre><code>TLos;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about section reveal">
+            <div class="about-text">
+                <h2>À propos</h2>
+                <p>Je crée des interfaces modernes et performantes avec une attention particulière pour l'expérience utilisateur, l'animation et l'accessibilité.</p>
+                <p>Ce site utilise une esthétique sombre, des transitions fluides et un style inspiré du monde du développement.</p>
+            </div>
+            <div class="about-visual">
+                <div class="about-card">
+                    <div class="about-image"></div>
+                    <p>Passionné par le code, je transforme des idées en projets visuels.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects section">
+            <h2>Projets</h2>
+            <div class="project-grid">
+                <article class="project-card reveal">
+                    <h3>Interface Dark</h3>
+                    <p>Dashboard animé avec effets de survol, optimisé pour desktop et mobile.</p>
+                    <span class="tag">CSS / JS</span>
+                </article>
+                <article class="project-card reveal">
+                    <h3>Portfolio Dev</h3>
+                    <p>Site portfolio responsive avec navigation fluide et sections interactives.</p>
+                    <span class="tag">HTML / CSS</span>
+                </article>
+                <article class="project-card reveal">
+                    <h3>Animation UI</h3>
+                    <p>Transitions douces, boutons lumineux et cartes dynamiques pour une UX premium.</p>
+                    <span class="tag">JavaScript</span>
+                </article>
+            </div>
+        </section>
+
+        <section id="contact" class="contact section reveal">
+            <h2>Contact</h2>
+            <form class="contact-form">
+                <label for="name">Nom</label>
+                <input type="text" id="name" name="name" placeholder="Ton nom" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="ton@mail.com" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Écris-moi quelque chose..." required></textarea>
+
+                <button type="submit" class="btn btn-glow">Envoyer</button>
+            </form>
+        </section>
     </main>
+
+    <footer class="site-footer">
+        <p>© 2026 DevHorizons. Conçu pour un web moderne et fluide.</p>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
