@@ -265,7 +265,18 @@ const socialsSection = document.getElementById('socials');
         bc.onmessage = (ev) => {
             if (!ev || !ev.data) return;
             const d = ev.data;
-            if (d.type === 'new' && d.msg) renderMessage(d.msg, false);
+            if (d.type === 'new' && d.msg) {
+                // render and persist the incoming message in localStorage so it survives refresh
+                try {
+                    const arr = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+                    // avoid duplicates
+                    if (!arr.find(x => x.id === d.msg.id)) {
+                        arr.push(d.msg);
+                        localStorage.setItem(LS_KEY, JSON.stringify(arr.slice(-200)));
+                    }
+                } catch (e) { /* ignore */ }
+                renderMessage(d.msg, false);
+            }
             if (d.type === 'clear') {
                 try { localStorage.removeItem(LS_KEY); } catch (e) { /* ignore */ }
                 messagesEl.innerHTML = '';
@@ -274,6 +285,12 @@ const socialsSection = document.getElementById('socials');
                 // remove by id
                 const node = messagesEl.querySelector(`.message[data-id="${d.id}"]`);
                 if (node) node.remove();
+                // also remove from localStorage so removal persists across refresh
+                try {
+                    const arr = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+                    const filtered = arr.filter(x => x.id !== d.id);
+                    localStorage.setItem(LS_KEY, JSON.stringify(filtered.slice(-200)));
+                } catch (e) { /* ignore */ }
             }
         };
     }
