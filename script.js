@@ -83,7 +83,8 @@ const socialsSection = document.getElementById('socials');
     }
 
 /* Forum logic: posting, rendering, realtime (Firebase optional) with BroadcastChannel/localStorage fallback */
-(function () {
+try {
+    (function () {
     const form = document.getElementById('forum-form');
     const messagesEl = document.getElementById('messages');
     const pseudoInput = document.getElementById('pseudo');
@@ -369,4 +370,12 @@ const socialsSection = document.getElementById('socials');
 
     // No periodic disabling of delete buttons — deletion is controlled by pseudo confirmation only
 
-})();
+    })();
+} catch (e) {
+    console.error('Forum initialization failed', e);
+    // show a visible error in the forum section so user sees it on GitHub Pages
+    try {
+        const fs = document.getElementById('forum');
+        if (fs) fs.innerHTML = '<div class="forum-error" style="padding:1rem;border-radius:12px;background:#2b2b2b;color:#ffe;">Le forum rencontre une erreur lors de son démarrage. Ouvrez la console pour plus d\'infos.</div>';
+    } catch (e2) { /* ignore */ }
+}
