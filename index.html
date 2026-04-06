@@ -17,6 +17,7 @@
             <a href="#home">Home</a>
             <a href="#about">Infos</a>
             <a href="#projects">Projets</a>
+            <a href="#forum">Forum</a>
             <a href="#socials" id="social-link" aria-expanded="false">Socials</a>
         </nav>
     </header>
@@ -37,6 +38,29 @@
             </div>
         </section>
 
+        <!-- Forum section: posts appear in real-time (Firebase if configured, otherwise BroadcastChannel fallback) -->
+        <section id="forum" class="forum section">
+            <h2>Forum</h2>
+            <div class="forum-card">
+                <form id="forum-form" class="forum-form" aria-label="Poster un message">
+                    <div class="form-row">
+                        <label for="pseudo">Pseudo</label>
+                        <input type="text" id="pseudo" name="pseudo" placeholder="Votre pseudo" required maxlength="30">
+                    </div>
+                    <div class="form-row">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Écrire un message..." required maxlength="1000" rows="4"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="clear-messages" class="btn btn-secondary">Supprimer tout</button>
+                        <button type="submit" class="btn btn-glow">Publier</button>
+                    </div>
+                </form>
+
+                <div id="messages" class="messages" aria-live="polite"></div>
+            </div>
+            <p class="hint"></p>
+        </section>
         <section id="about" class="about section reveal">
             <div class="about-text">
                 <h2>À propos</h2>
@@ -100,6 +124,15 @@
         <p>© 2026 My community. Créé par Timeo Wetta (Timeo7912).</p>
     </footer>
 
-    <script src="./script.js"></script>
 </body>
+        <script>
+            // Remplacez par votre config Firebase (Realtime Database)
+            window.FIREBASE_CONFIG = {
+                apiKey: "AIzaSyDJ38rcV6g6NPjC735IBq0NPOG13HzuyYQ",
+                authDomain: "darkhub-a1a3d.firebaseapp.com",
+                databaseURL: "https://darkhub-a1a3d-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "darkhub-a1a3d"
+            };
+        </script>
+        <script src="./script.js"></script>
 </html>
