@@ -124,8 +124,22 @@
         <p>© 2026 My community. Créé par Timeo Wetta (Timeo7912).</p>
     </footer>
 
-    </body>
-    <!-- Firebase config removed to keep default local fallback suitable for GitHub Pages.
-         If you want realtime cross-user sync, add your Firebase config here following README instructions. -->
-    <script src="./script.js"></script>
+        </body>
+        <!-- Firebase configuration: active snippet below — this enables realtime sync
+                 across any site that uses the same config (GitHub Pages, other domains).
+                 Keep in mind this config is public; secure your Realtime Database rules.
+        -->
+        <script>
+            // Firebase configuration provided by user
+            window.FIREBASE_CONFIG = {
+                apiKey: "AIzaSyCBLJ4LiDiNfvR84yjweqGn3_9sCmw5MlY",
+                authDomain: "303888252700-doaj8tsdrpmp1guboics9b3vb59sekhu.apps.googleusercontent.com",
+                databaseURL: "https://darkhub-a1a3d-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "darkhub-a1a3d"
+            };
+        </script>
+        <!-- Firebase compat SDKs (loaded before our app script) -->
+        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+        <script src="./script.js"></script>
 </html>

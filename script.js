@@ -185,18 +185,28 @@ try {
             .replace(/'/g, '&#039;');
     }
 
-    // Storage keys
+    // Fallback: if Firebase is not provided, use localStorage + BroadcastChannel so
+    // the forum still works on GitHub Pages (single-browser or multi-tab).
     const LS_KEY = 'monsite_forum_msgs_v1';
-
-    // Realtime channels
     let bc = null;
     try { bc = new BroadcastChannel('monsite_forum_channel'); } catch (e) { bc = null; }
 
     // If the user provided Firebase config on window.FIREBASE_CONFIG, use it.
     // To enable cross-user realtime, add a small script before this file in index.html:
     // <script>window.FIREBASE_CONFIG = { apiKey: "...", authDomain: "...", databaseURL: "...", projectId: "..." };</script>
+    function showForumError(message) {
+        if (forumSection) {
+            const err = document.createElement('div');
+            err.className = 'forum-error';
+            err.style = 'padding:1rem;border-radius:12px;background:#2b2b2b;color:#ffe;margin-top:1rem;';
+            err.textContent = message;
+            // insert at top of forum
+            forumSection.insertBefore(err, forumSection.firstChild);
+        }
+    }
+
     function initFirebaseIfNeeded(cb) {
-        if (!window.FIREBASE_CONFIG) return cb(null);
+        if (!window.FIREBASE_CONFIG) return cb(new Error('Firebase config not provided'));
         // load compat scripts dynamically
         const base = 'https://www.gstatic.com/firebasejs/9.22.1';
         const scripts = [base + '/firebase-app-compat.js', base + '/firebase-database-compat.js'];
@@ -235,25 +245,25 @@ try {
         } catch (e) { return cb(e); }
     }
 
-    // Publish message: either Firebase (if configured) or local broadcast + localStorage
+    // Publish message: only via Firebase
     function publishMessage(msg) {
         msg.id = msg.id || (msg.ts + '-' + Math.random().toString(36).slice(2,9));
+        msg.ownerId = OWNER_ID;
         if (firebaseDbRef) {
             firebaseDbRef.push(msg).catch(err => console.error('Firebase publish error', err));
             return;
         }
-        // fallback: save to localStorage array and broadcast to other tabs
+        // fallback: save to localStorage and broadcast to other tabs
         try {
             const arr = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
             arr.push(msg);
             localStorage.setItem(LS_KEY, JSON.stringify(arr.slice(-200)));
         } catch (e) { console.warn('LS write failed', e); }
         if (bc) bc.postMessage({ type: 'new', msg });
-        // also render locally
         renderMessage(msg, false);
     }
 
-    // load fallback messages from localStorage on startup
+    // Fallback loader: load existing messages from localStorage
     function loadFallbackMessages() {
         try {
             const arr = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
@@ -261,32 +271,22 @@ try {
         } catch (e) { /* ignore */ }
     }
 
-    // Listen BroadcastChannel for new messages, clear and remove events
+    // BroadcastChannel message handling for fallback mode
     if (bc) {
         bc.onmessage = (ev) => {
             if (!ev || !ev.data) return;
             const d = ev.data;
             if (d.type === 'new' && d.msg) {
-                // render and persist the incoming message in localStorage so it survives refresh
-                try {
-                    const arr = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-                    // avoid duplicates
-                    if (!arr.find(x => x.id === d.msg.id)) {
-                        arr.push(d.msg);
-                        localStorage.setItem(LS_KEY, JSON.stringify(arr.slice(-200)));
-                    }
-                } catch (e) { /* ignore */ }
-                renderMessage(d.msg, false);
+                // avoid duplicate rendering if already present
+                if (!messagesEl.querySelector(`.message[data-id="${d.msg.id}"]`)) renderMessage(d.msg, false);
             }
             if (d.type === 'clear') {
                 try { localStorage.removeItem(LS_KEY); } catch (e) { /* ignore */ }
                 messagesEl.innerHTML = '';
             }
             if (d.type === 'remove' && d.id) {
-                // remove by id
                 const node = messagesEl.querySelector(`.message[data-id="${d.id}"]`);
                 if (node) node.remove();
-                // also remove from localStorage so removal persists across refresh
                 try {
                     const arr = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
                     const filtered = arr.filter(x => x.id !== d.id);
@@ -296,14 +296,16 @@ try {
         };
     }
 
-    // Clear all messages (Firebase if configured, plus local fallback)
+    // No BroadcastChannel/localStorage syncing — Firebase handles realtime sync across clients
+
+    // Clear all messages (Firebase if available, otherwise local fallback)
     function clearAllMessages() {
         if (firebaseDbRef) {
-            // remove all messages in the DB reference
             firebaseDbRef.remove().catch(err => console.error('Firebase clear error', err));
+        } else {
+            try { localStorage.removeItem(LS_KEY); } catch (e) { /* ignore */ }
+            if (bc) bc.postMessage({ type: 'clear' });
         }
-        try { localStorage.removeItem(LS_KEY); } catch (e) { /* ignore */ }
-        if (bc) bc.postMessage({ type: 'clear' });
         messagesEl.innerHTML = '';
     }
 
@@ -333,10 +335,15 @@ try {
         messageInput.focus();
     });
 
-    // Initialize: try Firebase, otherwise load fallback messages
+    // Initialize: try Firebase, otherwise use local fallback so writing remains enabled
     initFirebaseIfNeeded((err, ok) => {
-        if (err) console.warn('Firebase init failed or not configured — using local fallback', err);
-        if (!ok) loadFallbackMessages();
+        if (err) {
+            console.warn('Firebase init failed or not configured — using local fallback', err);
+            // load messages from localStorage and keep form enabled
+            loadFallbackMessages();
+            return;
+        }
+        // Firebase ready; messages will flow via child_added in setupFirebase
     });
 
     // When Firebase is configured, ensure we listen for child_removed to sync deletions
