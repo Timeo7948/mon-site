@@ -141,16 +141,20 @@ try {
                 id: el.dataset.id,
                 key: el.dataset.key,
                 ts: Number(el.dataset.ts),
-                pseudo: (el.dataset.pseudo || '')
+                pseudo: (el.dataset.pseudo || ''),
+                ownerId: (el.dataset.owner || null)
             };
-            // no time limit: require pseudo only
-            const answer = prompt('Entrez votre pseudo pour confirmer la suppression :');
-            if (!answer || answer.trim().toLowerCase() !== String(m.pseudo || '').trim().toLowerCase()) {
-                alert('Pseudo incorrect. Suppression annulée.');
-                return;
+            // Allow deletion only by the message owner (matching OWNER_ID) or by admin code
+            const isOwner = (m.ownerId && m.ownerId === OWNER_ID);
+            if (!isOwner) {
+                const adminCode = prompt("Code d'administration requis pour supprimer ce message :");
+                if (adminCode !== 'timeo7948') {
+                    alert('Code incorrect. Suppression annulée.');
+                    return;
+                }
+            } else {
+                if (!confirm('Supprimer ce message ?')) return;
             }
-            // confirm
-            if (!confirm('Supprimer ce message ?')) return;
             // perform deletion
             if (firebaseDbRef && m.key) {
                 firebaseDbRef.child(m.key).remove().catch(err => console.error('Firebase remove error', err));
