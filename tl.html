@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TL.ly - Plateforme de Partage de Vidéos</title>
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./tl.css">
+</head>
+<body>
+    <!-- Firebase Config - À MODIFIER avec votre config Firebase -->
+    <script>
+        window.FIREBASE_CONFIG = {
+            apiKey: "AIzaSyCBLJ4LiDiNfvR84yjweqGn3_9sCmw5MlY",
+            authDomain: "303888252700-doaj8tsdrpmp1guboics9b3vb59sekhu.apps.googleusercontent.com",
+            projectId: "darkhub-a1a3d",
+            storageBucket: "darkhub-a1a3d.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
+        };
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    <!-- Animated background layer -->
+    <div class="background-glow"></div>
+
+    <header class="site-header">
+        <div class="logo">TL.ly</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <span id="user-info" class="user-info" style="display: none;">
+                <span id="username-display"></span>
+                <button id="logout-btn" class="btn btn-secondary">Déconnexion</button>
+            </span>
+        </nav>
+    </header>
+
+    <!-- Écran de login -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-container">
+            <div class="login-card">
+                <h1>TL.ly</h1>
+                <p class="login-subtitle">Plateforme de partage de vidéos</p>
+                
+                <form id="login-form" class="login-form">
+                    <div class="form-row">
+                        <label for="login-pseudo">Email</label>
+                        <input type="email" id="login-pseudo" name="email" placeholder="Votre email" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" id="login-password" name="password" placeholder="Votre mot de passe" required maxlength="50">
+                    </div>
+                    <button type="submit" class="btn btn-glow" style="width: 100%;">Se connecter</button>
+                    <p style="text-align: center; margin-top: 1rem; color: #a0aec0;">
+                        Pas encore de compte ? <button type="button" id="signup-toggle" class="btn btn-link">S'inscrire</button>
+                    </p>
+                </form>
+
+                <!-- Formulaire d'inscription caché par défaut -->
+                <form id="signup-form" class="login-form" style="display: none;">
+                    <div class="form-row">
+                        <label for="signup-pseudo">Email</label>
+                        <input type="email" id="signup-pseudo" name="email" placeholder="Votre email" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="signup-password">Mot de passe</label>
+                        <input type="password" id="signup-password" name="password" placeholder="Choisir un mot de passe" required minlength="6" maxlength="50">
+                    </div>
+                    <div class="form-row">
+                        <label for="signup-password-confirm">Confirmer mot de passe</label>
+                        <input type="password" id="signup-password-confirm" name="password_confirm" placeholder="Confirmer le mot de passe" required maxlength="50">
+                    </div>
+                    <button type="submit" class="btn btn-glow" style="width: 100%;">S'inscrire</button>
+                    <p style="text-align: center; margin-top: 1rem; color: #a0aec0;">
+                        Vous avez déjà un compte ? <button type="button" id="login-toggle" class="btn btn-link">Se connecter</button>
+                    </p>
+                </form>
+
+                <div id="login-error" class="error-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Écran principal (après authentification) -->
+    <main id="main-screen" class="main-screen" style="display: none;">
+        <div class="tl-container">
+            <!-- Sidebar -->
+            <aside class="tl-sidebar">
+                <div class="sidebar-card">
+                    <h3>Poster une vidéo</h3>
+                    <form id="upload-form" class="upload-form">
+                        <div class="form-row">
+                            <label for="video-file">Fichier MP4</label>
+                            <input type="file" id="video-file" name="video_file" accept=".mp4,video/mp4" required>
+                            <small style="color: #a0aec0; font-size: 0.8rem;">Max 500 MB</small>
+                        </div>
+                        <div class="form-row">
+                            <label for="video-title">Titre</label>
+                            <input type="text" id="video-title" name="title" placeholder="Titre de la vidéo" required maxlength="100">
+                        </div>
+                        <div class="form-row">
+                            <label for="video-description">Description</label>
+                            <textarea id="video-description" name="description" placeholder="Description..." maxlength="500" rows="3"></textarea>
+                        </div>
+                        <div id="upload-progress" style="display: none; margin-bottom: 1rem;">
+                            <div style="background: rgba(121, 191, 255, 0.2); border-radius: 8px; height: 8px; overflow: hidden;">
+                                <div id="progress-bar" style="background: #79bfff; height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+                            </div>
+                            <small style="color: #a0aec0;">Upload en cours...</small>
+                        </div>
+                        <button type="submit" class="btn btn-glow" style="width: 100%;" id="upload-btn">Publier</button>
+                    </form>
+                    <div id="upload-error" class="error-message"></div>
+                </div>
+            </aside>
+
+            <!-- Flux de vidéos -->
+            <section class="tl-feed">
+                <div id="videos-container" class="videos-container"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="./tl.js"></script>
+</body>
+</html>
