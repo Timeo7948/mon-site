@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Messages — Connexion</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">Messages — Timeo7912</div>
+        <nav class="nav-links">
+            <a href="index.html">Retour</a>
+            <a href="index.html#forum">Forum</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="section">
+            <h2>Messages</h2>
+
+            <div id="app" class="forum-card">
+                <div id="auth-area">
+                    <div id="auth-forms">
+                        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+                            <div style="flex:1;min-width:260px">
+                                <h3>Se connecter au compte TL</h3>
+                                <form id="signin-form">
+                                    <div class="form-row">
+                                        <label for="signin-email">Email</label>
+                                        <input id="signin-email" type="email" required>
+                                    </div>
+                                    <div class="form-row">
+                                        <label for="signin-pwd">Mot de passe</label>
+                                        <input id="signin-pwd" type="password" required>
+                                    </div>
+                                    <div style="margin-top:0.6rem">
+                                        <button type="submit" class="btn btn-glow">Se connecter</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div style="flex:1;min-width:260px">
+                                <h3>Créer un compte TL</h3>
+                                <form id="signup-form">
+                                    <div class="form-row">
+                                        <label for="signup-pseudo">Pseudo</label>
+                                        <input id="signup-pseudo" type="text" maxlength="30" required>
+                                    </div>
+                                    <div class="form-row">
+                                        <label for="signup-email">Email</label>
+                                        <input id="signup-email" type="email" required>
+                                    </div>
+                                    <div class="form-row">
+                                        <label for="signup-pwd">Mot de passe</label>
+                                        <input id="signup-pwd" type="password" required>
+                                    </div>
+                                    <div style="margin-top:0.6rem">
+                                        <button type="submit" class="btn btn-glow">Créer un compte</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <p style="margin-top:0.8rem;color:#9fb6dd;font-size:0.95rem">C'est le meme compte que les application TL !</p>
+                    </div>
+                </div>
+
+                <div id="messages-area" style="display:none;margin-top:1rem">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem">
+                        <strong id="current-user">—</strong>
+                        <div>
+                            <button id="signout" class="btn-secondary">Se déconnecter</button>
+                        </div>
+                    </div>
+
+                    <!-- Destinataire / conversation -->
+                    <div style="display:flex;gap:1rem;align-items:center;margin-bottom:0.6rem;flex-wrap:wrap">
+                        <div style="flex:1;min-width:220px">
+                            <label for="recipient-select">Destinataire</label>
+                            <select id="recipient-select" style="width:100%;padding:0.6rem;border-radius:8px;background:rgba(8,14,28,0.7);color:#eef6ff;border:1px solid rgba(110,140,255,0.06)">
+                                <option value="public">Public — Tous</option>
+                            </select>
+                        </div>
+                        <div style="flex:2;min-width:220px">
+                            <div id="conv-header" style="color:#9fb6dd;font-size:0.95rem;padding-top:0.4rem">Mode: Public</div>
+                        </div>
+                    </div>
+
+                    <form id="post-form" class="forum-form" aria-label="Poster un message">
+                        <div class="form-row">
+                            <label for="post-pseudo">Pseudo</label>
+                            <input type="text" id="post-pseudo" maxlength="30">
+                        </div>
+                        <div class="form-row">
+                            <label for="post-content">Message</label>
+                            <textarea id="post-content" rows="4" maxlength="1000" required></textarea>
+                        </div>
+                        <div class="form-actions" style="justify-content:flex-end">
+                            <button type="submit" class="btn btn-glow">Envoyer</button>
+                        </div>
+                    </form>
+
+                    <!-- Admin tools removed: automatic migration and sync enabled -->
+                    <!-- Flux public (existant) -->
+                    <div id="messages" class="messages" style="margin-top:1rem"></div>
+
+                    <!-- Flux de la conversation privée sélectionnée -->
+                    <div id="conv-messages" class="messages" style="margin-top:1rem;display:none"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer"><p>© 2026 Timeo7912</p></footer>
+
+    <script>
+    // Reuse the same Firebase config as in index.html — update if necessary
+    window.FIREBASE_CONFIG = {
+        apiKey: "AIzaSyCBLJ4LiDiNfvR84yjweqGn3_9sCmw5MlY",
+        authDomain: "303888252700-doaj8tsdrpmp1guboics9b3vb59sekhu.apps.googleusercontent.com",
+        databaseURL: "https://darkhub-a1a3d-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "darkhub-a1a3d"
+    };
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="./messages.js"></script>
+</body>
+</html>
