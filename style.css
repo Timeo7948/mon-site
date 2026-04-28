@@ -626,3 +626,52 @@ h1 {
 @media (max-width: 480px) {
     .social-grid { grid-template-columns: repeat(2, minmax(60px, 1fr)); }
 }
+body {
+    background: #1549d7;
+    font-family: Arial;
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.navbar ul {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.navbar li {
+    list-style: none;
+}
+
+.navbar a {
+    display: block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+}
+
+/* INDICATEUR */
+.indicator {
+    position: absolute;
+    height: 40px;
+    background: linear-gradient(135deg, #00e0ff, #00bfff);
+    border-radius: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.3s;
+    z-index: 1;
+}
+.navbar ul {
+    position: relative;
+}
