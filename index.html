@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site de Timeo Wetta (Timeo7912)</title>
-    <link rel="icon" type="image/png" href="./favicon.png">
-    <link rel="stylesheet" href="./style.css">
-    <script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site de Timeo Wetta (Timeo7912)</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script>
 document.addEventListener("DOMContentLoaded", () => {
     const items = document.querySelectorAll("#nav li");
     const indicator = document.getElementById("indicator");
@@ -16,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
         indicator.style.left = element.offsetLeft + "px";
     }
 
-    // position initiale
     const active = document.querySelector("#nav li.active");
     if (active) moveIndicator(active);
 
@@ -34,121 +34,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 </script>
+
 </head>
 <body>
-    <!-- Animated background layer -->
-    <div class="background-glow"></div>
 
-    <header class="site-header">
-        <div class="logo">Timeo Wetta (Timeo7912)</div>
-<nav class="navbar">
-    <ul id="nav">
-        <li class="active"><a href="#home">Home</a></li>
-        <li><a href="https://timeo7948.github.io/tlmovie">TL.movie</a></li>
-        <li><a href="https://timeo7948.github.io/games/index.html">TL.Games</a></li>
-        <div class="indicator" id="indicator"></div>
-    </ul>
-</nav>
-    </header>
+<header class="site-header">
+    <div class="logo">Timeo Wetta (Timeo7912)</div>
 
-    <main>
-        <section id="home" class="hero section">
-            <div class="hero-copy">
-                <span class="wave">Infos</span>
-                <span class="eyebrow">
-                <h1>Moi Timeo Wetta ou pseudonyme:Timeo7912.</h1></span>
-                <p>Un site pour on apprendre plus sur moi.</p>
-                <a href="https://timeo7948.github.io/tlmovie#" class="btn btn-glow">TL.Movie</a>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-card">
-                    <span>Je creer</span>
-                    <pre><code>Application Mobile,Site web,BOT discord</code></pre>
-                </div>
-            </div>
+    <nav class="navbar">
+        <ul id="nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">TL.movie</a></li>
+            <li><a href="#">TL.Games</a></li>
+            <div class="indicator" id="indicator"></div>
+        </ul>
+    </nav>
+</header>
 
-        <section id="about" class="about section reveal">
-            <div class="about-text">
-                <h2>À propos</h2>
-                <p>Bonjour petit passant, je m'appelle Timéo, j'aime le Gaming, Music, Nature, l'agriculture, l'electronique, informatique, Lire, dessiner, La Randonnée et Cuisiner.</p>
-                <p>Je fais quelques vidéos sur internet. 
-                    PS:Je suis mineur !</p>
-            </div>
-            <div class="about-visual">
-                <div class="about-card">
-                    <div class="about-image">
-                        <img src="image.jpg" alt="Moi">
-                    </div>
-                    <p>Passionné par la technologie,l'informatique et l'agriculture !</p>
-                </div>
-            </div>
-        </section>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-copy">
+        <span class="eyebrow">Infos</span>
+        <h1>Moi Timeo Wetta<br>ou pseudonyme : Timeo7912</h1>
+        <p>Un site pour en apprendre plus sur moi.</p>
+        <a href="#" class="btn">TL.Movie</a>
+    </div>
 
-        <section id="projects" class="projects section">
-            <h2>Projets</h2>
-            <div class="project-grid">
-                <article class="project-card reveal">
-                    <h3>Creer un os de telephone</h3>
-                    <p>J'ai pour projet de créer un système d'exploitation pour téléphone avec le nom de TLos.</p>
-                    <span class="tag">os</span>
-                </article>
-                <article class="project-card reveal">
-                    <h3>Application</h3>
-                    <p>Je créer des applications mobile en ce moment.</p>
-                    <span class="tag">Apps</span>
-                </article>
-                <article class="project-card reveal">
-                    <h3>Pas d'idée</h3>
-                    <p>Pas de 3em projet.</p>
-                    <span class="tag">Rien</span>
-                </article>
-            </div>
-        </section>
+    <div class="hero-visual">
+        <div class="hero-card">
+            <span>Je crée</span>
+            <pre><code>Application Mobile
+Site Web
+Bot Discord</code></pre>
+        </div>
+    </div>
+</section>
 
-        <!-- Socials: hidden until user clicks the "Socials" nav link -->
-        <section id="socials" class="socials section hidden">
-            <h2>Socials</h2>
-            <div class="social-grid">
-                <a class="social-card" href="https://www.tiktok.com/@timeo7912" target="_blank" rel="noopener">
-                    <span class="social-label">TikTok</span>
-                </a>
-                <!-- Snapchat removed -->
-                <a class="social-card" href="https://t.me/Timeo7912" target="_blank" rel="noopener">
-                    <span class="social-label">Telegram</span>
-                </a>
-                <a class="social-card" href="https://discord.gg/qHpe94D8cw" target="_blank" rel="noopener">
-                    <span class="social-label">Discord</span>
-                </a>
-                <a class="social-card" href="https://x.com/Timeo79480" target="_blank" rel="noopener">
-                    <span class="social-label">X</span>
-                </a>
-                <a class="social-card" href="https://www.youtube.com/timeo7912" target="_blank" rel="noopener">
-                    <span class="social-label">YouTube</span>
-                </a>
-            </div>
-        </section>
-    </main>
+<!-- ABOUT -->
+<section class="about">
+    <div class="about-text">
+        <h2>À propos</h2>
+        <p>Bonjour, je m'appelle Timéo.</p>
+        <p>J'aime le gaming, la musique, la nature et la technologie.</p>
+    </div>
 
-    <footer class="site-footer">
-        <p>© 2026 My community. Créé par Timeo Wetta (Timeo7912).</p>
-    </footer>
+    <div class="about-visual">
+        <div class="about-card">
+            <img src="image.jpg" alt="Moi">
+        </div>
+    </div>
+</section>
 
-        </body>
-        <!-- Firebase configuration: active snippet below — this enables realtime sync
-                 across any site that uses the same config (GitHub Pages, other domains).
-                 Keep in mind this config is public; secure your Realtime Database rules.
-        -->
-        <script>
-            // Firebase configuration provided by user
-            window.FIREBASE_CONFIG = {
-                apiKey: "AIzaSyCBLJ4LiDiNfvR84yjweqGn3_9sCmw5MlY",
-                authDomain: "303888252700-doaj8tsdrpmp1guboics9b3vb59sekhu.apps.googleusercontent.com",
-                databaseURL: "https://darkhub-a1a3d-default-rtdb.europe-west1.firebasedatabase.app",
-                projectId: "darkhub-a1a3d"
-            };
-        </script>
-        <!-- Firebase compat SDKs (loaded before our app script) -->
-        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-        <script src="./script.js"></script>
+<footer>
+    <p>© 2026 Timeo Wetta</p>
+</footer>
+
+</body>
 </html>
