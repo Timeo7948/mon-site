@@ -19,25 +19,7 @@ body {
     font-weight: bold;
 }
 
-/* HERO */
-.hero {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-    text-align: center;
-}
 
-/* TEXTE */
-.hero-copy h1 {
-    font-size: clamp(2.5rem, 4vw, 4rem);
-    margin-bottom: 20px;
-}
-
-.hero-copy p {
-    margin-bottom: 20px;
-    opacity: 0.8;
-}
 
 /* BOUTON */
 .btn {
@@ -130,7 +112,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.6rem 2rem;
+    padding: 1rem 2rem;
     position: sticky;
     top: 0;
     background: rgba(1, 13, 30, 0.8);
@@ -183,9 +165,9 @@ h1 {
     grid-template-columns: 1.2fr 0.8fr;
     align-items: center;
     gap: 2rem;
-    min-height: calc(100vh - 96px);
-}
 
+    height: calc(100vh - 80px); /* adapte au header */
+}
 .hero-copy .eyebrow {
     display: inline-block;
     margin-bottom: 1rem;
@@ -196,9 +178,7 @@ h1 {
 }
 
 .hero-copy h1 {
-    font-size: clamp(3rem, 4vw, 5rem);
-    line-height: 1.02;
-    margin-bottom: 1.4rem;
+    font-size: clamp(2rem, 3vw, 3.5rem);
 }
 
 .hero-copy p {
@@ -448,42 +428,6 @@ h1 {
     transform: translateY(0);
 }
 
-@media (max-width: 960px) {
-    .hero {
-        grid-template-columns: 1fr;
-        min-height: auto;
-    }
-
-    .about,
-    .project-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .nav-links {
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 680px) {
-    .site-header {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .hero-copy h1 {
-        font-size: 2.8rem;
-    }
-
-    .hero-card {
-        padding: 1.6rem;
-    }
-
-    .project-grid {
-        gap: 1rem;
-    }
-}
 
 /* Forum styles */
 .forum-card {
@@ -654,7 +598,7 @@ body {
 
 .navbar a {
     display: block;
-    padding: 10px 20px;
+    padding: 7px 15px;
     color: white;
     text-decoration: none;
     position: relative;
@@ -680,4 +624,23 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 24px;
+}
+/* FIX RESPONSIVE GLOBAL */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: auto; /* sinon ça coupe */
+        grid-template-columns: 1fr;
+    }
+}
+.hero.section {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.site-header {
+    height: 80px;
 }
