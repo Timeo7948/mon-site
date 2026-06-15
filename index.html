@@ -6,50 +6,180 @@
     <title>Site de Timeo Wetta (Timeo7912)</title>
     <link rel="icon" type="image/png" href="./favicon.png">
     <link rel="stylesheet" href="./style.css">
+    <style>
+        /* === SHRINKING HEADER === */
+        .site-header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            transition: height 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s;
+            height: 280px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .site-header.shrunk {
+            height: 64px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Image de fond du header */
+        .header-hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .header-banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: opacity 0.4s;
+        }
+
+        .site-header.shrunk .header-banner-img {
+            opacity: 0.15;
+        }
+
+        .header-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.65) 100%);
+        }
+
+        /* Contenu du header (logo + nav) */
+        .header-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 10px;
+            transition: flex-direction 0.3s;
+        }
+
+        .site-header.shrunk .header-inner {
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 64px;
+            padding-bottom: 0;
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+            transition: font-size 0.4s, margin 0.4s;
+        }
+
+        .site-header.shrunk .logo {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        /* Nav */
+        .navbar ul#nav {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 6px 12px;
+            position: relative;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            gap: 4px;
+            transition: background 0.4s, padding 0.4s;
+        }
+
+        .site-header.shrunk .navbar ul#nav {
+            background: transparent;
+            backdrop-filter: none;
+            padding: 4px 8px;
+        }
+
+        /* Espace pour compenser le header fixed */
+        main {
+            padding-top: 290px;
+            transition: padding-top 0.4s;
+        }
+
+        body.header-shrunk main {
+            padding-top: 74px;
+        }
+    </style>
     <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const items = document.querySelectorAll("#nav li");
-    const indicator = document.getElementById("indicator");
+        document.addEventListener("DOMContentLoaded", () => {
+            const items = document.querySelectorAll("#nav li");
+            const indicator = document.getElementById("indicator");
 
-    function moveIndicator(element) {
-        indicator.style.width = element.offsetWidth + "px";
-        indicator.style.left = element.offsetLeft + "px";
-    }
+            function moveIndicator(element) {
+                indicator.style.width = element.offsetWidth + "px";
+                indicator.style.left = element.offsetLeft + "px";
+            }
 
-    // position initiale
-    const active = document.querySelector("#nav li.active");
-    if (active) moveIndicator(active);
+            const active = document.querySelector("#nav li.active");
+            if (active) moveIndicator(active);
 
-    items.forEach(item => {
-        item.addEventListener("click", () => {
-            document.querySelector("#nav li.active")?.classList.remove("active");
-            item.classList.add("active");
-            moveIndicator(item);
+            items.forEach(item => {
+                item.addEventListener("click", () => {
+                    document.querySelector("#nav li.active")?.classList.remove("active");
+                    item.classList.add("active");
+                    moveIndicator(item);
+                });
+            });
+
+            window.addEventListener("resize", () => {
+                const active = document.querySelector("#nav li.active");
+                if (active) moveIndicator(active);
+            });
+
+            // Shrink header on scroll
+            const header = document.getElementById('site-header');
+            const SHRINK_AT = 80;
+
+            function updateHeader() {
+                if (window.scrollY > SHRINK_AT) {
+                    header.classList.add('shrunk');
+                    document.body.classList.add('header-shrunk');
+                } else {
+                    header.classList.remove('shrunk');
+                    document.body.classList.remove('header-shrunk');
+                }
+            }
+
+            window.addEventListener('scroll', updateHeader, { passive: true });
+            updateHeader();
         });
-    });
-
-    window.addEventListener("resize", () => {
-        const active = document.querySelector("#nav li.active");
-        if (active) moveIndicator(active);
-    });
-});
-</script>
+    </script>
 </head>
 <body>
     <!-- Animated background layer -->
     <div class="background-glow"></div>
 
-    <header class="site-header">
-        <div class="logo">Timeo Wetta (Timeo7912)</div>
-<nav class="navbar">
-    <ul id="nav">
-        <li class="active"><a href="#home">Home</a></li>
-        <li><a href="https://desktop-2ct2jc9.tail5960ed.ts.net/films/">TL.movie</a></li>
-        <li><a href="https://desktop-2ct2jc9.tail5960ed.ts.net/music/">TL.Music</a></li>
-        <li><a href="https://desktop-2ct2jc9.tail5960ed.ts.net">Gallerie</a></li>
-        <div class="indicator" id="indicator"></div>
-    </ul>
-</nav>
+    <header class="site-header" id="site-header">
+        <div class="header-hero-bg">
+            <img src="./1781546638449_image.png" alt="Banner Timeo7912" class="header-banner-img">
+            <div class="header-overlay"></div>
+        </div>
+        <div class="header-inner">
+            <div class="logo">Timeo Wetta (Timeo7912)</div>
+            <nav class="navbar">
+                <ul id="nav">
+                    <li class="active"><a href="#home">Home</a></li>
+                    <li><a href="https://desktop-2ct2jc9.tail5960ed.ts.net/films/">TL.movie</a></li>
+                    <li><a href="https://desktop-2ct2jc9.tail5960ed.ts.net/music/">TL.Music</a></li>
+                    <li><a href="https://desktop-2ct2jc9.tail5960ed.ts.net">Gallerie</a></li>
+                    <div class="indicator" id="indicator"></div>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <main>
@@ -67,11 +197,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <pre><code>Application Mobile,Site web,BOT discord</code></pre>
                 </div>
             </div>
+        </section>
 
- <section id="about" class="about section reveal">
+        <section id="about" class="about section reveal">
             <div class="about-text">
                 <h2>À propos</h2>
-                <p>Bonjour petit passant, je m'appelle Timéo, j'aime le Gaming, Music, Nature, l'agriculture, l'electronique, informatique, Lire, dessiner, La Randonnée et Cuisiner.</p>
+                <p>Bonjour petit passant, je m'appelle Timéo, j'aime le Gaming, Music, Nature, l'agriculture, l'electronique, informatique, Lire, dessiner, La Randonnée et Cuisiner.</p>
                 <p>Je fais quelques vidéos sur internet. 
                     PS:Je suis mineur !</p>
             </div>
@@ -114,7 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 <a class="social-card" href="https://www.tiktok.com/@timeo7912_2" target="_blank" rel="noopener">
                     <span class="social-label">TikTok</span>
                 </a>
-                <!-- Snapchat removed -->
                 <a class="social-card" href="https://t.me/Timeo7912" target="_blank" rel="noopener">
                     <span class="social-label">Telegram</span>
                 </a>
@@ -135,22 +265,17 @@ document.addEventListener("DOMContentLoaded", () => {
         <p>© 2026 Créé par Timeo Wetta (Timeo7912).</p>
     </footer>
 
-        </body>
-        <!-- Firebase configuration: active snippet below — this enables realtime sync
-                 across any site that uses the same config (GitHub Pages, other domains).
-                 Keep in mind this config is public; secure your Realtime Database rules.
-        -->
-        <script>
-            // Firebase configuration provided by user
-            window.FIREBASE_CONFIG = {
-                apiKey: "AIzaSyCBLJ4LiDiNfvR84yjweqGn3_9sCmw5MlY",
-                authDomain: "303888252700-doaj8tsdrpmp1guboics9b3vb59sekhu.apps.googleusercontent.com",
-                databaseURL: "https://darkhub-a1a3d-default-rtdb.europe-west1.firebasedatabase.app",
-                projectId: "darkhub-a1a3d"
-            };
-        </script>
-        <!-- Firebase compat SDKs (loaded before our app script) -->
-        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-        <script src="./script.js"></script>
+    <!-- Firebase configuration -->
+    <script>
+        window.FIREBASE_CONFIG = {
+            apiKey: "AIzaSyCBLJ4LiDiNfvR84yjweqGn3_9sCmw5MlY",
+            authDomain: "303888252700-doaj8tsdrpmp1guboics9b3vb59sekhu.apps.googleusercontent.com",
+            databaseURL: "https://darkhub-a1a3d-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "darkhub-a1a3d"
+        };
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="./script.js"></script>
+</body>
 </html>
